@@ -5,9 +5,11 @@ using UnityEngine;
 public class Spawner : MonoBehaviour
 {
     public GameObject spawnPoint;
-    public GameObject enemy;             
+    public GameObject spawnObject;             
     private Vector3 sP;  
     public float spawnTime = 1f;
+    
+    private int iter = 0;
 
     
     void Start ()
@@ -21,8 +23,11 @@ public class Spawner : MonoBehaviour
     {    
         float spawnPointX = Random.Range (-sP.x , sP.x);
         float spawnPointZ = Random.Range (-sP.z , sP.z);
-        Vector3 spawnPosition = new Vector3 (spawnPointX, enemy.GetComponent<Collider>().bounds.size.y/2, spawnPointZ);
+        Vector3 spawnPosition = new Vector3 (spawnPointX, spawnObject.GetComponent<Collider>().bounds.size.y/2, spawnPointZ);
         
-        Instantiate(enemy, spawnPosition, Quaternion.identity);
+        if(iter < 10){
+            Instantiate(spawnObject, spawnPosition, Quaternion.identity);
+            iter++;
+        }       
     }
 }

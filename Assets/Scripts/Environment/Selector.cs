@@ -27,7 +27,7 @@ public class Selector : MonoBehaviour
         if (Physics.Raycast(ray, out hit))
         {
             var selection = hit.transform;
-            if (selection.CompareTag(selectableTab))
+            if (selection.CompareTag(selectableTab) && selection.gameObject.GetComponent<CapsuleCollider>() != null)
             {
                 var selectionRenderer = selection.GetComponent<Renderer>();
                 if (selectionRenderer != null)

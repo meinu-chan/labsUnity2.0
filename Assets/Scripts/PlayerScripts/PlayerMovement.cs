@@ -7,7 +7,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float maxSpeed = 2f;
     private Camera cam;
     private Vector3 posToMove;
-    private UnityEngine.AI.NavMeshAgent _navMeshAgent;
+    public static Vector3 hitPosition;
+    public static UnityEngine.AI.NavMeshAgent _navMeshAgent;
     // Start is called before the first frame update
     void Start()
     {
@@ -25,8 +26,14 @@ public class PlayerMovement : MonoBehaviour
     {
         RaycastHit hit;
         bool hasHit = Physics.Raycast(GetMouseRay(), out hit);
+        Transform selection = hit.transform;
         if (hasHit)
         {
+            if(Input.GetMouseButtonDown(0) && selection.CompareTag("Enemy")){
+                _navMeshAgent.isStopped = true;
+                hitPosition = selection.position;
+                PlayerCombat.throwingAble = true;
+            }
             if (Input.GetMouseButton(0))
             {
                 MoveTo(hit.point, 1f);
@@ -43,6 +50,5 @@ public class PlayerMovement : MonoBehaviour
     {
         _navMeshAgent.destination = destination;
         _navMeshAgent.speed = maxSpeed * Mathf.Clamp01(speedFraction);
-        _navMeshAgent.isStopped = false;
     }
 }
