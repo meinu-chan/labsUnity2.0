@@ -21,8 +21,8 @@ public class ThrowFireball : MonoBehaviour
             Destroy(other.gameObject);
             Destroy(gameObject);
         }
-        if(other.CompareTag("Player")){
-            Debug.Log("1");
+        if(!other.CompareTag("Player")){
+            Destroy(gameObject);
         }
     }
 
