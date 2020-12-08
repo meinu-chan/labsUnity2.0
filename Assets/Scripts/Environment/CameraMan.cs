@@ -6,9 +6,12 @@ public class CameraMan : MonoBehaviour
 {
     [SerializeField] Transform target;
     [SerializeField] float rotationSpeed = 50;
-    [SerializeField] float zoomSpeed = 1000;
+    [SerializeField] float zoomSpeed = 50;
     [SerializeField] Camera _camera;
+    [SerializeField] float minDistance;
+    [SerializeField] float maxDistance;
     private Vector3 rotation;
+    private float zoom = 0f;
 
 
     private void Start() {
@@ -17,7 +20,13 @@ public class CameraMan : MonoBehaviour
     {
         transform.position = target.position;
         RotateCamera();
-        // CameraZoom();
+        if(Input.GetAxis("Mouse ScrollWheel")!=0)
+        {
+            CameraZoom();      
+        }
+        if(Input.GetMouseButton(2)){
+            Debug.Log(Input.GetMouseButton(2));
+        }
     }
 
     private void RotateCamera(){
@@ -26,12 +35,10 @@ public class CameraMan : MonoBehaviour
         transform.eulerAngles = rotation;
     }
 
-    // private void CameraZoom(){
-
-    //     Vector3 cameraZoom = _camera.transform.position;
-    //     cameraZoom += new Vector3(-1, 1 ,-1) * Input.GetAxis("Mouse ScrollWheel") * -zoomSpeed * Time.deltaTime;
-
-    //     _camera.transform.position = cameraZoom;
-
-    // }
+    private void CameraZoom(){
+        zoom = Input.GetAxis("Mouse ScrollWheel") * -zoomSpeed;
+        if(_camera.fieldOfView + zoom < maxDistance  && _camera.fieldOfView + zoom > minDistance){
+            _camera.fieldOfView += zoom;
+        }
+    }
 }
